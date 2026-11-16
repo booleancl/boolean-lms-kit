@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem "jekyll", "~> 4.3"
+gem "just-the-docs", "0.10.0"
+gem "webrick"
+gem "kramdown-parser-gfm"
+
+group :jekyll_plugins do
+  gem "jekyll-vite", "~> 3.0"
+  gem "jekyll-boolean-lms-kit", path: "../packages/jekyll-boolean-lms-kit"
+end
+
+group :development do
+  gem "overmind" # bin/dev: levanta Vite + Jekyll (requiere tmux)
+end

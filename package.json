@@ -1,0 +1,8 @@
+{
+  "name": "boolean-lms-kit-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/lms-kit",
+    "demo"
+  ]
+}

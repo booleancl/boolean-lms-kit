@@ -1,0 +1,39 @@
+{
+  "name": "@boolean/lms-kit",
+  "version": "0.1.0",
+  "description": "Editores interactivos (Python/Pyodide, JavaScript) con CodeMirror 6 y diapositivas reveal.js para sitios LMS Jamstack.",
+  "license": "MIT",
+  "author": "Academia Boolean SpA",
+  "type": "module",
+  "files": [
+    "src"
+  ],
+  "exports": {
+    "./python": "./src/python.js",
+    "./javascript": "./src/javascript.js",
+    "./reveal": "./src/reveal.js",
+    "./editor": "./src/editor/create-editor.js",
+    "./editor.css": "./src/editor/editor.css",
+    "./vite": "./src/vite.js"
+  },
+  "sideEffects": [
+    "*.css",
+    "./src/python.js",
+    "./src/javascript.js",
+    "./src/reveal.js"
+  ],
+  "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@codemirror/lang-python": "^6.1.6",
+    "codemirror": "^6.0.1",
+    "reveal.js": "^5.1.0"
+  },
+  "peerDependencies": {
+    "vite": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,35 @@
+title: "boolean-lms-kit"
+description: "Demo y documentación de jekyll-boolean-lms-kit + @boolean/lms-kit"
+lang: es-CL
+theme: just-the-docs
+
+plugins:
+  - jekyll/vite
+  - jekyll-boolean-lms-kit
+
+# Configuración del kit (estos son los valores por defecto).
+lms_kit:
+  source: _examples          # .py / .js con celdas `# %%` / `// %%`
+  url_prefix: /interactive   # _examples/python/hola.py -> /interactive/python/hola.html
+  slides_source: _slides     # .md con separadores reveal (---, --, Note:)
+  slides_prefix: /slides
+  pyodide_version: "0.26.4"
+  entrypoints:               # nombres de los entrypoints en _frontend/entrypoints/
+    python: lms-python
+    javascript: lms-javascript
+    reveal: lms-reveal
+
+defaults:
+  - scope: { path: "" }
+    values: { layout: default }
+
+exclude:
+  - bin
+  - config
+  - vite.config.ts
+  - package.json
+  - Procfile.dev
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - tmp

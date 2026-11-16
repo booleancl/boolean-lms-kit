@@ -1,0 +1,40 @@
+{%- comment -%}
+  Editor interactivo (Python o JavaScript). Lo usan las páginas creadas por el generator
+  a partir de archivos .py/.js. `page.cells` = [{title, code}], `page.lang` = python | javascript.
+{%- endcomment -%}
+{%- assign lms = page.lms_kit -%}
+{%- if page.lang == "python" -%}
+  {%- assign lms_lang_name = "Python" -%}
+{%- else -%}
+  {%- assign lms_lang_name = "JavaScript" -%}
+{%- endif -%}
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'es-CL' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | escape }}</title>
+  {% vite_client_tag %}
+  {% lms_entrypoint {{ page.lang }} %}
+</head>
+<body>
+  <main id="lms-editor" class="lms-editor" data-lang="{{ page.lang }}"
+        data-pyodide-version="{{ lms.pyodide_version }}">
+    <header class="lms-header">
+      <span class="lms-badge lms-badge--{{ page.lang }}" title="{{ lms_lang_name }}">{{ lms_lang_name }}</span>
+      <h1 class="lms-title">{{ page.title | escape }}</h1>
+    </header>
+    {%- for cell in page.cells %}
+    <pre hidden class="lms-cell" data-title="{{ cell.title | escape }}">{{ cell.code | xml_escape }}</pre>
+    {%- endfor %}
+    <nav class="lms-tabs" role="tablist"></nav>
+    <div class="lms-code"></div>
+    <div class="lms-toolbar">
+      <button type="button" class="lms-button lms-run" data-action="run">Run &rsaquo;</button>
+      <button type="button" class="lms-button" data-action="reset">Reset</button>
+      <button type="button" class="lms-button" data-action="clear">Limpiar</button>
+    </div>
+    <pre class="lms-console" aria-live="polite"></pre>
+  </main>
+</body>
+</html>

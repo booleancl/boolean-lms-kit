@@ -1,0 +1,11 @@
+node_modules/
+.bundle/
+vendor/
+*.gem
+Gemfile.lock
+!demo/Gemfile.lock
+demo/_site/
+demo/.jekyll-cache/
+demo/.jekyll-metadata
+demo/tmp/
+demo/.overmind.sock

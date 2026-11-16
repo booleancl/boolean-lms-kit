@@ -1,0 +1,56 @@
+:root {
+  --lms-bg: #ffffff;
+  --lms-fg: #1f2328;
+  --lms-muted: #6e7781;
+  --lms-border: #d0d7de;
+  --lms-accent: #7253ed; /* púrpura just-the-docs */
+  --lms-console-bg: #f6f8fa;
+  --lms-err: #cf222e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lms-bg: #0d1117;
+    --lms-fg: #e6edf3;
+    --lms-muted: #8d96a0;
+    --lms-border: #30363d;
+    --lms-console-bg: #161b22;
+    --lms-err: #ff7b72;
+  }
+}
+
+html, body { margin: 0; background: var(--lms-bg); color: var(--lms-fg); }
+body { font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+.lms-editor { display: flex; flex-direction: column; gap: .5rem; padding: .75rem; box-sizing: border-box; min-height: 100vh; }
+.lms-header { display: flex; align-items: center; gap: .5rem; }
+.lms-title { font-size: 1rem; margin: 0; font-weight: 600; }
+.lms-badge { font-size: .7rem; font-weight: 700; padding: .1rem .4rem; border-radius: 3px; color: #000; }
+.lms-badge--python { background: #ffd43b; }
+.lms-badge--javascript { background: #f7df1e; }
+
+.lms-tabs { display: flex; flex-wrap: wrap; gap: .25rem; }
+.lms-tabs:empty { display: none; }
+.lms-tab {
+  font: inherit; font-size: .85rem; cursor: pointer; padding: .2rem .6rem;
+  border: 1px solid var(--lms-border); border-radius: 4px; background: transparent; color: var(--lms-fg);
+}
+.lms-tab[aria-selected="true"] { border-color: var(--lms-accent); color: var(--lms-accent); font-weight: 600; }
+
+.lms-code { border: 1px solid var(--lms-border); border-radius: 4px; overflow: hidden; }
+.lms-code .cm-editor { max-height: 60vh; }
+.lms-code .cm-scroller { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
+
+.lms-toolbar { display: flex; gap: .5rem; }
+.lms-button {
+  font: inherit; cursor: pointer; padding: .3rem .9rem; border-radius: 4px;
+  border: 1px solid var(--lms-border); background: transparent; color: var(--lms-fg);
+}
+.lms-button:disabled { opacity: .5; cursor: progress; }
+.lms-run { background: var(--lms-accent); border-color: var(--lms-accent); color: #fff; }
+
+.lms-console {
+  flex: 1; min-height: 6rem; margin: 0; padding: .5rem; overflow: auto; white-space: pre-wrap;
+  background: var(--lms-console-bg); border: 1px solid var(--lms-border); border-radius: 4px;
+  font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.lms-console .lms-err { color: var(--lms-err); }

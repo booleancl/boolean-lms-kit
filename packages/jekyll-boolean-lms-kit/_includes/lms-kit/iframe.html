@@ -1,0 +1,15 @@
+{%- comment -%}
+  Iframe con una página interactiva + botón "Full Screen".
+  Recibe `lms_iframe` (desde los tags) o parámetros de include: src, height, title.
+{%- endcomment -%}
+{%- assign lms_args = lms_iframe | default: include -%}
+{%- assign lms_url = lms_args.src | relative_url -%}
+{%- assign lms_height = lms_args.height | default: 450 -%}
+<div class="lms-kit-iframe">
+  <iframe src="{{ lms_url }}" title="{{ lms_args.title | default: 'Ejemplo interactivo' | escape }}"
+          style="width: 100%; height: {{ lms_height }}px; border: 1px solid #ddd; border-radius: 4px;"
+          loading="lazy"></iframe>
+  <p style="text-align: end; margin-top: .25rem;">
+    <a href="{{ lms_url }}" class="btn btn-purple" target="_blank" rel="noopener">Full Screen</a>
+  </p>
+</div>
