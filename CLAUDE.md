@@ -44,6 +44,9 @@ ruta local; sirve de documentación y de prueba.
 ## Alcance v0.1
 
 - Python y JS desde archivos, generator, Liquid tags, reveal, KaTeX.
+- SQL (SQLite con sql.js; `-- schema:` / `-- db:`) y planilla desde `.csv` (motor de fórmulas propio en
+  `packages/lms-kit/src/sheet/` + funciones de formulajs, nombres en español e inglés). No usar
+  HyperFormula/Handsontable: sus licencias (GPL/comercial) no son compatibles con distribuir el kit como MIT.
 - Después (v0.2): editor web de pestañas (reemplazar/reescribir BOB; conservar su licencia
   si se mantiene) y challenges con Jasmine (`is_challenge`, `test_files`).
 

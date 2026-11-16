@@ -18,11 +18,9 @@ module Jekyll
 
       module_function
 
-      def parse(source, comment: "#")
-        c = Regexp.escape(comment)
-        meta_re = %r!\A\s*#{c}\s*([A-Za-z_][\w-]*):\s*(.*?)\s*\z!
-        cell_re = %r!\A\s*#{c}\s*%%(.*)\z!
-
+      # Separa las líneas `<comentario> clave: valor` del inicio. Devuelve [meta, líneas restantes].
+      def extract_meta(source, comment: "#")
+        meta_re = %r!\A\s*#{Regexp.escape(comment)}\s*([A-Za-z_][\w-]*):\s*(.*?)\s*\z!
         lines = source.to_s.gsub("\r\n", "\n").split("\n", -1)
         meta = {}
         while (line = lines.first)
@@ -35,6 +33,12 @@ module Jekyll
             break
           end
         end
+        [meta, lines]
+      end
+
+      def parse(source, comment: "#")
+        cell_re = %r!\A\s*#{Regexp.escape(comment)}\s*%%(.*)\z!
+        meta, lines = extract_meta(source, comment: comment)
 
         cells = []
         current = nil

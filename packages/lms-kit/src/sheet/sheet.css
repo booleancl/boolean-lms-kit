@@ -1,0 +1,39 @@
+.lms-sheet { display: flex; flex-direction: column; gap: .5rem; padding: .75rem; box-sizing: border-box; height: 100vh; }
+
+.lms-formula-bar { display: flex; align-items: stretch; border: 1px solid var(--lms-border); border-radius: 4px; overflow: hidden; }
+.lms-cell-name {
+  min-width: 3.5rem; padding: .3rem .5rem; text-align: center; font-weight: 600; font-size: .85rem;
+  border-right: 1px solid var(--lms-border); background: var(--lms-console-bg);
+}
+.lms-fx { padding: .3rem .5rem; font-style: italic; color: var(--lms-muted); border-right: 1px solid var(--lms-border); }
+.lms-formula-input {
+  flex: 1; border: 0; padding: .3rem .5rem; background: transparent; color: var(--lms-fg);
+  font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; outline: none;
+}
+
+.lms-grid-wrap { flex: 1; overflow: auto; border: 1px solid var(--lms-border); border-radius: 4px; }
+.lms-grid { border-collapse: separate; border-spacing: 0; font-size: 13px; outline: none; }
+.lms-grid th, .lms-grid td {
+  border-right: 1px solid var(--lms-border); border-bottom: 1px solid var(--lms-border);
+  height: 1.6rem; padding: 0 .4rem; white-space: nowrap;
+}
+.lms-grid th {
+  position: sticky; background: var(--lms-console-bg); color: var(--lms-muted); font-weight: 500;
+  text-align: center; user-select: none; z-index: 1;
+}
+.lms-grid thead th { top: 0; }
+.lms-grid tbody th { left: 0; min-width: 2.5rem; }
+.lms-grid th.lms-corner { left: 0; z-index: 2; }
+.lms-grid th.lms-active { color: var(--lms-accent); font-weight: 700; }
+.lms-grid td { min-width: 6.5rem; max-width: 16rem; overflow: hidden; text-overflow: ellipsis; cursor: cell; }
+.lms-grid td.lms-num { text-align: right; font-variant-numeric: tabular-nums; }
+.lms-grid td.lms-bool { text-align: center; }
+.lms-grid td.lms-error { color: var(--lms-err); text-align: center; font-weight: 600; }
+.lms-grid td.lms-selected { outline: 2px solid var(--lms-accent); outline-offset: -2px; }
+.lms-grid td:has(.lms-cell-input) { padding: 0; }
+.lms-cell-input {
+  width: 100%; height: 100%; box-sizing: border-box; border: 0; padding: 0 .4rem; outline: 2px solid var(--lms-accent);
+  outline-offset: -2px; background: var(--lms-bg); color: var(--lms-fg); font: inherit;
+}
+.lms-hint { font-size: .75rem; color: var(--lms-muted); margin: 0; }
+.lms-badge--sheet { background: #95d5b2; }

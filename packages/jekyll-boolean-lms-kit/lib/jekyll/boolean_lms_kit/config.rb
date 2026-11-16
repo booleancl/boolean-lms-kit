@@ -13,6 +13,8 @@ module Jekyll
       "entrypoints"     => {
         "python"     => "lms-python",
         "javascript" => "lms-javascript",
+        "sql"        => "lms-sql",
+        "sheet"      => "lms-sheet",
         "reveal"     => "lms-reveal",
       },
     }.freeze

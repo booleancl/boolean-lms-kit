@@ -1,7 +1,7 @@
 {
   "name": "@boolean/lms-kit",
   "version": "0.1.0",
-  "description": "Editores interactivos (Python/Pyodide, JavaScript) con CodeMirror 6 y diapositivas reveal.js para sitios LMS Jamstack.",
+  "description": "Editores interactivos (Python/Pyodide, JavaScript, SQL/SQLite), planilla de cálculo y diapositivas reveal.js para sitios LMS Jamstack.",
   "license": "MIT",
   "author": "Academia Boolean SpA",
   "type": "module",
@@ -11,6 +11,8 @@
   "exports": {
     "./python": "./src/python.js",
     "./javascript": "./src/javascript.js",
+    "./sql": "./src/sql.js",
+    "./sheet": "./src/sheet.js",
     "./reveal": "./src/reveal.js",
     "./editor": "./src/editor/create-editor.js",
     "./editor.css": "./src/editor/editor.css",
@@ -20,13 +22,18 @@
     "*.css",
     "./src/python.js",
     "./src/javascript.js",
+    "./src/sql.js",
+    "./src/sheet.js",
     "./src/reveal.js"
   ],
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
     "@codemirror/lang-python": "^6.1.6",
+    "@codemirror/lang-sql": "^6.10.0",
+    "@formulajs/formulajs": "^4.6.1",
     "codemirror": "^6.0.1",
-    "reveal.js": "^5.1.0"
+    "reveal.js": "^5.1.0",
+    "sql.js": "^1.16.0"
   },
   "peerDependencies": {
     "vite": ">=5"
@@ -35,5 +42,8 @@
     "vite": {
       "optional": true
     }
+  },
+  "scripts": {
+    "test": "node --test 'test/*.test.js'"
   }
 }

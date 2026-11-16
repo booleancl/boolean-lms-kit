@@ -9,6 +9,8 @@ const KIT_DIR = fs.realpathSync(path.resolve(path.dirname(fileURLToPath(import.m
 const DEFAULT_ENTRYPOINTS = {
   python: "lms-python",
   javascript: "lms-javascript",
+  sql: "lms-sql",
+  sheet: "lms-sheet",
   reveal: "lms-reveal",
 }
 
@@ -18,6 +20,9 @@ const OPTIMIZE_DEPS = [
   "codemirror",
   "@codemirror/lang-python",
   "@codemirror/lang-javascript",
+  "@codemirror/lang-sql",
+  "@formulajs/formulajs",
+  "sql.js",
   "reveal.js",
   "reveal.js/plugin/markdown/markdown.esm.js",
   "reveal.js/plugin/highlight/highlight.esm.js",
@@ -37,7 +42,7 @@ const OPTIMIZE_DEPS = [
  * Los nombres deben coincidir con `lms_kit.entrypoints` de `_config.yml`.
  *
  * @param {object} [options]
- * @param {{python?: string, javascript?: string, reveal?: string}} [options.entrypoints]
+ * @param {{python?: string, javascript?: string, sql?: string, sheet?: string, reveal?: string}} [options.entrypoints]
  * @param {string} [options.entrypointsDir="entrypoints"]  igual que `entrypointsDir` de config/vite.json
  */
 export default function lmsKit({ entrypoints = {}, entrypointsDir = "entrypoints" } = {}) {

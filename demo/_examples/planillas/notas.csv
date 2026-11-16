@@ -1,0 +1,9 @@
+# title: Notas del curso
+Estudiante,Prueba 1,Prueba 2,Prueba 3,Promedio,Estado
+Ana,6.5,5.8,6.9,=REDONDEAR(PROMEDIO(B2:D2);1),"=SI(E2>=4;""Aprobado"";""Reprobado"")"
+Benjamín,3.2,4.5,3.8,=REDONDEAR(PROMEDIO(B3:D3);1),"=SI(E3>=4;""Aprobado"";""Reprobado"")"
+Camila,5.0,6.1,5.5,=REDONDEAR(PROMEDIO(B4:D4);1),"=SI(E4>=4;""Aprobado"";""Reprobado"")"
+Diego,4.0,3.5,4.4,=REDONDEAR(PROMEDIO(B5:D5);1),"=SI(E5>=4;""Aprobado"";""Reprobado"")"
+,,,,,
+Promedio curso,=PROMEDIO(B2:B5),=PROMEDIO(C2:C5),=PROMEDIO(D2:D5),=PROMEDIO(E2:E5),
+Aprobados,,,,"=CONTAR.SI(F2:F5;""Aprobado"")",

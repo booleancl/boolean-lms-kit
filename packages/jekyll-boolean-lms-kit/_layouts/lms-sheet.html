@@ -1,0 +1,36 @@
+{%- comment -%}
+  Planilla de cálculo editable. La crea el generator a partir de un .csv: `page.csv` (contenido crudo,
+  con fórmulas que empiezan con "="), `page.delimiter` (metadato `# delimiter:`, por defecto ",").
+{%- endcomment -%}
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'es-CL' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | escape }}</title>
+  {% vite_client_tag %}
+  {% lms_entrypoint sheet %}
+</head>
+<body>
+  <main id="lms-sheet" class="lms-sheet" data-delimiter="{{ page.delimiter | escape }}"
+        data-filename="{{ page.lms_source_path | split: '/' | last | split: '.' | first | escape }}">
+    <header class="lms-header">
+      <span class="lms-badge lms-badge--sheet">Planilla</span>
+      <h1 class="lms-title">{{ page.title | escape }}</h1>
+    </header>
+    <pre hidden class="lms-sheet-data">{{ page.csv | xml_escape }}</pre>
+    <div class="lms-formula-bar">
+      <span class="lms-cell-name">A1</span>
+      <span class="lms-fx" aria-hidden="true">fx</span>
+      <input class="lms-formula-input" aria-label="Contenido de la celda" spellcheck="false" autocomplete="off">
+    </div>
+    <div class="lms-grid-wrap">
+      <table class="lms-grid" aria-label="{{ page.title | escape }}"></table>
+    </div>
+    <div class="lms-toolbar">
+      <button type="button" class="lms-button" data-action="reset">Reset</button>
+      <button type="button" class="lms-button" data-action="download">Descargar CSV</button>
+    </div>
+  </main>
+</body>
+</html>

@@ -9,7 +9,7 @@ plugins:
 
 # Configuración del kit (estos son los valores por defecto).
 lms_kit:
-  source: _examples          # .py / .js con celdas `# %%` / `// %%`
+  source: _examples          # .py / .js / .sql con celdas `# %%` / `// %%` / `-- %%`, y .csv (planillas)
   url_prefix: /interactive   # _examples/python/hola.py -> /interactive/python/hola.html
   slides_source: _slides     # .md con separadores reveal (---, --, Note:)
   slides_prefix: /slides
@@ -17,6 +17,8 @@ lms_kit:
   entrypoints:               # nombres de los entrypoints en _frontend/entrypoints/
     python: lms-python
     javascript: lms-javascript
+    sql: lms-sql
+    sheet: lms-sheet
     reveal: lms-reveal
 
 defaults:

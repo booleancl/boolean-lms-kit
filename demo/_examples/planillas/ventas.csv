@@ -1,0 +1,9 @@
+# title: Sales (English functions)
+Product,Price,Units,Total
+Notebook,2500,3,=B2*C2
+Pencil,500,10,=B3*C3
+Backpack,18990,1,=B4*C4
+,,,
+Total,,"=SUM(C2:C4)","=SUM(D2:D4)"
+Most expensive,"=INDEX(A2:A4,MATCH(MAX(B2:B4),B2:B4,0))",,
+With 19% VAT,,,=D6*(1+19%)

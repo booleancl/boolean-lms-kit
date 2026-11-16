@@ -1,13 +1,14 @@
 {%- comment -%}
-  Editor interactivo (Python o JavaScript). Lo usan las páginas creadas por el generator
-  a partir de archivos .py/.js. `page.cells` = [{title, code}], `page.lang` = python | javascript.
+  Editor interactivo (Python, JavaScript o SQL). Lo usan las páginas creadas por el generator
+  a partir de archivos .py/.js/.sql. `page.cells` = [{title, code}], `page.lang` = python | javascript | sql.
+  Para SQL: `page.setup_sql` (esquema/datos) y `page.db_url` (archivo .sqlite).
 {%- endcomment -%}
 {%- assign lms = page.lms_kit -%}
-{%- if page.lang == "python" -%}
-  {%- assign lms_lang_name = "Python" -%}
-{%- else -%}
-  {%- assign lms_lang_name = "JavaScript" -%}
-{%- endif -%}
+{%- case page.lang -%}
+  {%- when "python" -%}{%- assign lms_lang_name = "Python" -%}
+  {%- when "sql" -%}{%- assign lms_lang_name = "SQL" -%}
+  {%- else -%}{%- assign lms_lang_name = "JavaScript" -%}
+{%- endcase -%}
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: 'es-CL' }}">
 <head>
@@ -19,11 +20,15 @@
 </head>
 <body>
   <main id="lms-editor" class="lms-editor" data-lang="{{ page.lang }}"
-        data-pyodide-version="{{ lms.pyodide_version }}">
+        {%- if page.lang == "python" %} data-pyodide-version="{{ lms.pyodide_version }}"{% endif %}
+        {%- if page.db_url %} data-db-url="{{ page.db_url | relative_url }}"{% endif %}>
     <header class="lms-header">
       <span class="lms-badge lms-badge--{{ page.lang }}" title="{{ lms_lang_name }}">{{ lms_lang_name }}</span>
       <h1 class="lms-title">{{ page.title | escape }}</h1>
     </header>
+    {%- if page.setup_sql and page.setup_sql != "" %}
+    <pre hidden class="lms-setup">{{ page.setup_sql | xml_escape }}</pre>
+    {%- endif %}
     {%- for cell in page.cells %}
     <pre hidden class="lms-cell" data-title="{{ cell.title | escape }}">{{ cell.code | xml_escape }}</pre>
     {%- endfor %}

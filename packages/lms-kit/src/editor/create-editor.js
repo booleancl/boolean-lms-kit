@@ -6,10 +6,13 @@ import { EditorView, basicSetup } from "codemirror"
  * @param {object} opts
  * @param {import("@codemirror/state").Extension} opts.language  extensión de lenguaje (python(), javascript()…)
  * @param {{init?: (out: Output, root: HTMLElement) => Promise<void>|void,
- *          run: (code: string, out: Output) => Promise<void>|void}} opts.runner
+ *          run: (code: string, out: Output) => Promise<void>|void,
+ *          reset?: (out: Output) => Promise<void>|void}} opts.runner
+ *   `reset` se llama con el botón Reset (p. ej. para recrear la base de datos SQL).
  * @param {HTMLElement|string} [opts.root="#lms-editor"]
  *
- * @typedef {{stdout: (text: string) => void, stderr: (text: string) => void, clear: () => void}} Output
+ * @typedef {{stdout: (text: string) => void, stderr: (text: string) => void, clear: () => void,
+ *            table: (columns: string[], rows: unknown[][], note?: string) => void}} Output
  */
 export function createEditor({ language, runner, root = "#lms-editor" }) {
   const el = typeof root === "string" ? document.querySelector(root) : root
@@ -26,6 +29,28 @@ export function createEditor({ language, runner, root = "#lms-editor" }) {
     stdout: (text) => append(text, "lms-out"),
     stderr: (text) => append(text, "lms-err"),
     clear: () => { consoleEl.textContent = "" },
+    table: (columns, rows, note) => {
+      const tbl = document.createElement("table")
+      tbl.className = "lms-result"
+      const head = tbl.createTHead().insertRow()
+      for (const name of columns) head.append(Object.assign(document.createElement("th"), { textContent: name }))
+      const body = tbl.createTBody()
+      for (const row of rows) {
+        const tr = body.insertRow()
+        for (const v of row) {
+          const td = tr.insertCell()
+          td.textContent = v === null ? "NULL" : String(v)
+          if (v === null) td.className = "lms-null"
+          else if (typeof v === "number") td.className = "lms-num"
+        }
+      }
+      const wrap = document.createElement("div")
+      wrap.className = "lms-result-wrap"
+      wrap.append(tbl)
+      consoleEl.append(wrap)
+      if (note) append(note, "lms-note")
+      consoleEl.scrollTop = consoleEl.scrollHeight
+    },
   }
   function append(text, cls) {
     const span = document.createElement("span")
@@ -87,9 +112,13 @@ export function createEditor({ language, runner, root = "#lms-editor" }) {
   }
 
   runBtn.addEventListener("click", run)
-  el.querySelector('[data-action="reset"]').addEventListener("click", () => {
+  el.querySelector('[data-action="reset"]').addEventListener("click", async () => {
     edited[current] = cells[current].code
     setDoc(cells[current].code)
+    if (runner.reset) {
+      await ready
+      await runner.reset(out)
+    }
   })
   el.querySelector('[data-action="clear"]').addEventListener("click", out.clear)
   view.contentDOM.addEventListener("keydown", (e) => {

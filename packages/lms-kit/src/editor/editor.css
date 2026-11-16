@@ -54,3 +54,12 @@ body { font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; 
   font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 .lms-console .lms-err { color: var(--lms-err); }
+.lms-console .lms-note { color: var(--lms-muted); }
+.lms-badge--sql { background: #8ecae6; }
+
+.lms-result-wrap { overflow-x: auto; margin: .25rem 0; }
+.lms-result { border-collapse: collapse; white-space: nowrap; font-size: 13px; }
+.lms-result th, .lms-result td { border: 1px solid var(--lms-border); padding: .15rem .5rem; text-align: left; }
+.lms-result th { background: var(--lms-bg); font-weight: 600; }
+.lms-result td.lms-num { text-align: right; font-variant-numeric: tabular-nums; }
+.lms-result td.lms-null { color: var(--lms-muted); font-style: italic; }
