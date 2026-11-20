@@ -73,7 +73,17 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
 
 ## Uso en un sitio Jekyll
 
-1. `Gemfile`, en el grupo `:jekyll_plugins`: `gem "jekyll-boolean-lms-kit"`, y en `_config.yml`:
+1. `Gemfile` (la gema se instala desde GitHub; `glob` le indica a Bundler dónde está el `.gemspec`):
+   ```ruby
+   group :jekyll_plugins do
+     gem "jekyll-vite", "~> 3.0"
+     gem "jekyll-boolean-lms-kit",
+         git: "https://github.com/booleancl/boolean-lms-kit",
+         glob: "packages/jekyll-boolean-lms-kit/*.gemspec",
+         tag: "v0.1.0"
+   end
+   ```
+   y en `_config.yml`:
    ```yaml
    plugins: [jekyll/vite, jekyll-boolean-lms-kit]
    lms_kit:                     # todo opcional; estos son los valores por defecto
@@ -84,7 +94,12 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
      pyodide_version: "0.26.4"
      entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal }
    ```
-2. `npm install @boolean/lms-kit` y agrega el plugin en `vite.config.ts` (es el único archivo de Vite que se toca):
+2. Instala el paquete npm desde el tarball de la [release](https://github.com/booleancl/boolean-lms-kit/releases)
+   (usa la misma versión que el `tag` de la gema):
+   ```sh
+   npm install https://github.com/booleancl/boolean-lms-kit/releases/download/v0.1.0/boolean-lms-kit-0.1.0.tgz
+   ```
+   y agrega el plugin en `vite.config.ts` (es el único archivo de Vite que se toca):
    ```ts
    import { defineConfig } from 'vite'
    import RubyPlugin from 'vite-plugin-ruby'
@@ -122,6 +137,14 @@ bin/dev                           # Vite + Jekyll con overmind (requiere tmux) �
 
 `bin/dev` usa `demo/Procfile.dev`. Con overmind: `bundle exec overmind connect jekyll` para ver un proceso,
 `bundle exec overmind restart vite` para reiniciarlo, `bin/dev -D` para dejarlo en segundo plano y `bundle exec overmind quit` para detenerlo.
+
+## Publicar una versión
+
+1. Sube la versión en `packages/jekyll-boolean-lms-kit/lib/jekyll/boolean_lms_kit/version.rb` y en
+   `packages/lms-kit/package.json` (deben coincidir).
+2. Commit, `git tag vX.Y.Z` y `git push --follow-tags`.
+3. El workflow `.github/workflows/release.yml` verifica las versiones, corre los tests y crea la GitHub Release
+   con `boolean-lms-kit-X.Y.Z.tgz` adjunto. Los sitios actualizan el `tag:` del `Gemfile` y la URL del tarball.
 
 ## Estado
 

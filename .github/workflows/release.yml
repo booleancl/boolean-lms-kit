@@ -1,0 +1,48 @@
+# Al hacer push de un tag vX.Y.Z: verifica que coincida con las versiones de la gema y del paquete npm,
+# corre los tests y publica una GitHub Release con el tarball de @boolean/lms-kit adjunto.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          working-directory: packages/jekyll-boolean-lms-kit
+          bundler-cache: true
+
+      - name: Verificar versiones
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          NPM=$(node -p "require('./packages/lms-kit/package.json').version")
+          GEM=$(ruby -e 'require "./packages/jekyll-boolean-lms-kit/lib/jekyll/boolean_lms_kit/version"; print Jekyll::BooleanLmsKit::VERSION')
+          echo "tag=$TAG npm=$NPM gem=$GEM"
+          [ "$TAG" = "$NPM" ] && [ "$TAG" = "$GEM" ]
+
+      - name: Tests
+        run: |
+          npm install --workspace @boolean/lms-kit
+          npm test --workspace @boolean/lms-kit
+          (cd packages/jekyll-boolean-lms-kit && bundle exec rake test)
+
+      - name: Empaquetar
+        run: npm pack --workspace @boolean/lms-kit
+
+      - name: Crear release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" boolean-lms-kit-*.tgz --title "$GITHUB_REF_NAME" --generate-notes

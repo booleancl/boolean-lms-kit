@@ -9,9 +9,14 @@ Gem::Specification.new do |spec|
   spec.summary       = "Layouts, includes y generator para sitios LMS Jamstack con Jekyll."
   spec.description   = "Editores interactivos de Python/JS escritos en archivos de su lenguaje, " \
                        "diapositivas reveal.js y shortcodes de iframe para sitios Jekyll."
-  spec.homepage      = "https://boolean.cl"
+  spec.homepage      = "https://github.com/booleancl/boolean-lms-kit"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 3.0"
+  spec.metadata = {
+    "source_code_uri" => spec.homepage,
+    "bug_tracker_uri" => "#{spec.homepage}/issues",
+    "changelog_uri" => "#{spec.homepage}/releases"
+  }
 
   spec.files = Dir["lib/**/*.rb", "_layouts/**/*", "_includes/**/*", "README.md", "LICENSE"]
   spec.require_paths = ["lib"]

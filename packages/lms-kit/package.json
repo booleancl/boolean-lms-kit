@@ -4,6 +4,13 @@
   "description": "Editores interactivos (Python/Pyodide, JavaScript, SQL/SQLite), planilla de cálculo y diapositivas reveal.js para sitios LMS Jamstack.",
   "license": "MIT",
   "author": "Academia Boolean SpA",
+  "homepage": "https://github.com/booleancl/boolean-lms-kit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/booleancl/boolean-lms-kit.git",
+    "directory": "packages/lms-kit"
+  },
+  "bugs": "https://github.com/booleancl/boolean-lms-kit/issues",
   "type": "module",
   "files": [
     "src"
