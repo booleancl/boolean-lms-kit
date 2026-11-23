@@ -51,3 +51,19 @@ class CellParserTest < Minitest::Test
     assert_equal [nil, "A"], r[:cells].map(&:title)
   end
 end
+
+class FrontMatterTest < Minitest::Test
+  def test_splits_front_matter_and_body
+    src = "---\ntitle: Mapa\nmarkmap:\n  wrapWidth: 240\n  theme: minimal\n---\n# Raíz\n- hijo\n"
+    front, body = Jekyll::BooleanLmsKit.split_front_matter(src)
+    assert_equal "Mapa", front["title"]
+    assert_equal({ "wrapWidth" => 240, "theme" => "minimal" }, front["markmap"])
+    assert_equal "# Raíz\n- hijo\n", body
+  end
+
+  def test_without_front_matter
+    front, body = Jekyll::BooleanLmsKit.split_front_matter("# Raíz\n")
+    assert_equal({}, front)
+    assert_equal "# Raíz\n", body
+  end
+end

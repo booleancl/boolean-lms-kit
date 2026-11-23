@@ -10,6 +10,7 @@ Reutilizar en varios sitios Jekyll:
 - Editores interactivos de Python (Pyodide) y JavaScript (QuickJS / navegador) con CodeMirror 6.
 - Ejercicios web HTML/CSS/JS con salida en iframe (hoy: MDN BOB `editor-tabbed.js`).
 - Diapositivas reveal.js desde Markdown.
+- Mapas mentales (markmap, solo visualización): `.md` en la carpeta de ejemplos con front matter `markmap:` (`wrapWidth`, `theme`, opciones nativas).
 - Shortcodes que insertan un iframe con la página interactiva + botón "Full Screen".
 - KaTeX opcional.
 
@@ -28,7 +29,7 @@ Dos paquetes en este monorepo:
    - Formato de ejemplos: celdas separadas por `# %%` (py) / `// %%` (js), estilo Jupytext;
      metadatos en comentarios al inicio (`# title: ...`).
    - Liquid tags: `{% python_example ruta.py %}`, `{% js_example ruta.js height=400 %}`,
-     `{% web_example carpeta/ %}`, `{% slides ruta.md %}`. Respetar siempre `site.baseurl`.
+     `{% web_example carpeta/ %}`, `{% slides ruta.md %}`, `{% mindmap ruta.md %}`. Respetar siempre `site.baseurl`.
    - Config en `_config.yml` bajo la clave `lms_kit:` (carpeta fuente, prefijo de URL, etc.).
 
 2. **Paquete npm `@boolean/lms-kit`** (nombre de scope por confirmar)

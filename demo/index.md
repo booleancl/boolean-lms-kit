@@ -44,6 +44,16 @@ Un `.csv` donde las celdas que empiezan con `=` son fórmulas. Acepta funciones 
 
 {% sheet_example planillas/ventas.csv height=380 %}
 
+## Mapas mentales
+
+Un `.md` en `_examples/` se muestra como mapa mental (markmap), solo para visualizar. El front matter
+configura el mapa: `wrapWidth` (ancho máximo del texto), `theme` (`light`, `dark`, `minimal`) y cualquier
+opción de markmap (`colorFreezeLevel`, `initialExpandLevel`, `duration`…).
+
+`_examples/mapas/lenguajes.md` → `{% raw %}{% mindmap mapas/lenguajes.md height=500 %}{% endraw %}`
+
+{% mindmap mapas/lenguajes.md height=500 %}
+
 ## Diapositivas
 
 `_slides/intro.md` → `{% raw %}{% slides intro.md %}{% endraw %}`

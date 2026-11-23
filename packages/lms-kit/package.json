@@ -21,6 +21,7 @@
     "./sql": "./src/sql.js",
     "./sheet": "./src/sheet.js",
     "./reveal": "./src/reveal.js",
+    "./mindmap": "./src/mindmap.js",
     "./editor": "./src/editor/create-editor.js",
     "./editor.css": "./src/editor/editor.css",
     "./vite": "./src/vite.js"
@@ -31,7 +32,8 @@
     "./src/javascript.js",
     "./src/sql.js",
     "./src/sheet.js",
-    "./src/reveal.js"
+    "./src/reveal.js",
+    "./src/mindmap.js"
   ],
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
@@ -39,6 +41,8 @@
     "@codemirror/lang-sql": "^6.10.0",
     "@formulajs/formulajs": "^4.6.1",
     "codemirror": "^6.0.1",
+    "markmap-lib": "^0.18.13",
+    "markmap-view": "^0.18.13",
     "reveal.js": "^5.1.0",
     "sql.js": "^1.16.0"
   },

@@ -67,8 +67,8 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
 
 | Carpeta | Paquete | Contenido |
 | --- | --- | --- |
-| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, layouts `lms-editor` / `lms-sheet` / `lms-reveal` / `lms-katex`, includes |
-| `packages/lms-kit` | npm `@boolean/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, reveal.js, plugin de Vite |
+| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-katex`, includes |
+| `packages/lms-kit` | npm `@boolean/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, mapas mentales (markmap), reveal.js, plugin de Vite |
 | `demo/` | — | sitio de ejemplo y documentación |
 
 ## Uso en un sitio Jekyll
@@ -92,7 +92,7 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
      slides_source: _slides
      slides_prefix: /slides
      pyodide_version: "0.26.4"
-     entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal }
+     entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal, mindmap: lms-mindmap }
    ```
 2. Instala el paquete npm desde el tarball de la [release](https://github.com/booleancl/boolean-lms-kit/releases)
    (usa la misma versión que el `tag` de la gema):
@@ -107,7 +107,7 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
 
    export default defineConfig({ plugins: [RubyPlugin(), lmsKit()] })
    ```
-   El plugin crea los entrypoints `lms-python`, `lms-javascript`, `lms-sql`, `lms-sheet` y `lms-reveal` como módulos virtuales:
+   El plugin crea los entrypoints `lms-python`, `lms-javascript`, `lms-sql`, `lms-sheet`, `lms-reveal` y `lms-mindmap` como módulos virtuales:
    no hace falta crear archivos en `_frontend/entrypoints/`. Si quieres personalizar uno, crea el archivo real
    con ese nombre (p. ej. `_frontend/entrypoints/lms-python.js` con `import "@boolean/lms-kit/python"` y lo tuyo)
    y se usa ese. Si cambias los nombres en `lms_kit.entrypoints`, pásalos también al plugin:
@@ -119,6 +119,9 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
    {% sql_example sql/tienda.sql height=500 %}
    {% sheet_example planillas/notas.csv %}
    {% slides intro.md %}
+
+   # Mapas mentales: un .md en lms_kit.source (solo visualización)
+   {% mindmap mapas/lenguajes.md height=500 %}
    ```
    Todos respetan `site.baseurl`. Para fórmulas, usa `layout: lms-katex`.
 

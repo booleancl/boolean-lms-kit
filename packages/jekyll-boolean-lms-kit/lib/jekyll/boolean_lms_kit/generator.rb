@@ -7,6 +7,7 @@ module Jekyll
     # Ejemplos soportados:
     #   .py / .js / .sql -> layout lms-editor (celdas `# %%`, `// %%`, `-- %%`)
     #   .csv             -> layout lms-sheet (planilla; las celdas que empiezan con "=" son fórmulas)
+    #   .md              -> layout lms-mindmap (mapa mental markmap; opciones en el front matter `markmap:`)
     #
     # Los archivos y carpetas que empiezan con "_" no generan página (como en Jekyll): sirven para
     # esquemas SQL o bases de datos que otros ejemplos referencian con `-- schema:` / `-- db:`.
@@ -54,6 +55,8 @@ module Jekyll
             @site.pages << example_page(full, rel, lang)
           elsif ext == ".csv"
             @site.pages << sheet_page(full, rel)
+          elsif ext == ".md"
+            @site.pages << mindmap_page(full, rel)
           end
         end
       end
@@ -83,6 +86,21 @@ module Jekyll
           "lang"      => "sheet",
           "csv"       => lines.join("\n"),
           "delimiter" => meta["delimiter"] || ","
+        )
+        page
+      end
+
+      # Front matter YAML: `title:` y el bloque `markmap:` con las opciones del mapa
+      # (wrapWidth, theme, colorFreezeLevel, ...). El resto del archivo es el Markdown del mapa.
+      def mindmap_page(full, rel)
+        front, body = BooleanLmsKit.split_front_matter(read(full))
+        options = front["markmap"].is_a?(Hash) ? front["markmap"] : {}
+        page = base_page(rel, front.reject { |k, _| k == "markmap" })
+        page.data.merge!(
+          "layout"  => "lms-mindmap",
+          "lang"    => "mindmap",
+          "md"      => body,
+          "markmap" => options
         )
         page
       end
@@ -146,12 +164,7 @@ module Jekyll
 
         Dir.glob("**/*.md", base: root).sort.each do |rel|
           base = rel.delete_suffix(".md")
-          content = read(File.join(root, rel))
-          front = {}
-          if content =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
-            content = Regexp.last_match.post_match
-            front = SafeYAML.load(Regexp.last_match(1)) || {}
-          end
+          front, content = BooleanLmsKit.split_front_matter(read(File.join(root, rel)))
           page = new_page(base)
           page.data.merge!(
             "layout"         => "lms-reveal",

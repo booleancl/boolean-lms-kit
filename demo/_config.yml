@@ -9,7 +9,7 @@ plugins:
 
 # Configuración del kit (estos son los valores por defecto).
 lms_kit:
-  source: _examples          # .py / .js / .sql con celdas `# %%` / `// %%` / `-- %%`, y .csv (planillas)
+  source: _examples          # .py / .js / .sql con celdas `# %%` / `// %%` / `-- %%`, .csv (planillas) y .md (mapas mentales markmap)
   url_prefix: /interactive   # _examples/python/hola.py -> /interactive/python/hola.html
   slides_source: _slides     # .md con separadores reveal (---, --, Note:)
   slides_prefix: /slides
@@ -20,6 +20,7 @@ lms_kit:
     sql: lms-sql
     sheet: lms-sheet
     reveal: lms-reveal
+    mindmap: lms-mindmap
 
 defaults:
   - scope: { path: "" }

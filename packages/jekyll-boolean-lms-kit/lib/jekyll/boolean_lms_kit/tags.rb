@@ -3,7 +3,7 @@
 module Jekyll
   module BooleanLmsKit
     # {% python_example ruta.py height=400 %} — inserta un iframe con la página generada del ejemplo.
-    # Lo mismo para js_example, sql_example y sheet_example.
+    # Lo mismo para js_example, sql_example, sheet_example y mindmap.
     class ExampleTag < Liquid::Tag
       ARG_RE = %r!(\w+)=("[^"]*"|'[^']*'|\S+)!
 
@@ -80,3 +80,4 @@ Liquid::Template.register_tag("sheet_example", Jekyll::BooleanLmsKit::ExampleTag
 Liquid::Template.register_tag("slides", Jekyll::BooleanLmsKit::SlidesTag)
 Liquid::Template.register_tag("lms_entrypoint", Jekyll::BooleanLmsKit::EntrypointTag)
 Liquid::Template.register_tag("web_example", Jekyll::BooleanLmsKit::WebExampleTag)
+Liquid::Template.register_tag("mindmap", Jekyll::BooleanLmsKit::ExampleTag)

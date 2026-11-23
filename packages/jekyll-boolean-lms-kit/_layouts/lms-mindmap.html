@@ -1,0 +1,23 @@
+{%- comment -%}
+  Mapa mental (markmap) solo de visualización. Lo crea el generator a partir de un .md en lms_kit.source:
+  `page.md` (Markdown sin front matter) y `page.markmap` (opciones del bloque `markmap:` del front matter).
+{%- endcomment -%}
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'es-CL' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | escape }}</title>
+  {% vite_client_tag %}
+  {% lms_entrypoint mindmap %}
+</head>
+<body>
+  <main id="lms-mindmap" class="lms-mindmap" data-options="{{ page.markmap | jsonify | escape }}">
+    <pre hidden class="lms-mindmap-data">{{ page.md | xml_escape }}</pre>
+    <svg class="lms-mindmap-svg" role="img" aria-label="{{ page.title | escape }}"></svg>
+    <div class="lms-mindmap-toolbar">
+      <button type="button" class="lms-button" data-action="fit">Ajustar</button>
+    </div>
+  </main>
+</body>
+</html>
