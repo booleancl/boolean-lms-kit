@@ -32,10 +32,10 @@ Dos paquetes en este monorepo:
      `{% web_example carpeta/ %}`, `{% slides ruta.md %}`, `{% mindmap ruta.md %}`. Respetar siempre `site.baseurl`.
    - Config en `_config.yml` bajo la clave `lms_kit:` (carpeta fuente, prefijo de URL, etc.).
 
-2. **Paquete npm `@boolean/lms-kit`** (nombre de scope por confirmar)
+2. **Paquete npm `@booleancl/lms-kit`** 
    - Un solo editor CodeMirror parametrizado por lenguaje + runners (pyodide, quickjs, iframe).
    - Un único layout web con `runtime: script | module | react` (reemplaza 3 layouts duplicados).
-   - Plugin de Vite `@boolean/lms-kit/vite` (`lmsKit()`): crea los entrypoints `lms-python`/`lms-javascript`/
+   - Plugin de Vite `@booleancl/lms-kit/vite` (`lmsKit()`): crea los entrypoints `lms-python`/`lms-javascript`/
      `lms-reveal` como módulos virtuales; el sitio solo edita `vite.config.ts`. Un archivo real con el mismo
      nombre en `_frontend/entrypoints/` tiene prioridad.
 

@@ -68,7 +68,7 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
 | Carpeta | Paquete | Contenido |
 | --- | --- | --- |
 | `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-katex`, includes |
-| `packages/lms-kit` | npm `@boolean/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, mapas mentales (markmap), reveal.js, plugin de Vite |
+| `packages/lms-kit` | npm `@booleancl/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, mapas mentales (markmap), reveal.js, plugin de Vite |
 | `demo/` | — | sitio de ejemplo y documentación |
 
 ## Uso en un sitio Jekyll
@@ -80,7 +80,7 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
      gem "jekyll-boolean-lms-kit",
          git: "https://github.com/booleancl/boolean-lms-kit",
          glob: "packages/jekyll-boolean-lms-kit/*.gemspec",
-         tag: "v0.1.0"
+         tag: "v0.1.1"
    end
    ```
    y en `_config.yml`:
@@ -94,22 +94,22 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
      pyodide_version: "0.26.4"
      entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal, mindmap: lms-mindmap }
    ```
-2. Instala el paquete npm desde el tarball de la [release](https://github.com/booleancl/boolean-lms-kit/releases)
+2. Instala el paquete npm desde [npm](https://www.npmjs.com/package/@booleancl/lms-kit)
    (usa la misma versión que el `tag` de la gema):
    ```sh
-   npm install https://github.com/booleancl/boolean-lms-kit/releases/download/v0.1.0/boolean-lms-kit-0.1.0.tgz
+   npm install @booleancl/lms-kit@0.1.1
    ```
    y agrega el plugin en `vite.config.ts` (es el único archivo de Vite que se toca):
    ```ts
    import { defineConfig } from 'vite'
    import RubyPlugin from 'vite-plugin-ruby'
-   import lmsKit from '@boolean/lms-kit/vite'
+   import lmsKit from '@booleancl/lms-kit/vite'
 
    export default defineConfig({ plugins: [RubyPlugin(), lmsKit()] })
    ```
    El plugin crea los entrypoints `lms-python`, `lms-javascript`, `lms-sql`, `lms-sheet`, `lms-reveal` y `lms-mindmap` como módulos virtuales:
    no hace falta crear archivos en `_frontend/entrypoints/`. Si quieres personalizar uno, crea el archivo real
-   con ese nombre (p. ej. `_frontend/entrypoints/lms-python.js` con `import "@boolean/lms-kit/python"` y lo tuyo)
+   con ese nombre (p. ej. `_frontend/entrypoints/lms-python.js` con `import "@booleancl/lms-kit/python"` y lo tuyo)
    y se usa ese. Si cambias los nombres en `lms_kit.entrypoints`, pásalos también al plugin:
    `lmsKit({ entrypoints: { python: "mi-python" } })`.
 3. En cualquier página:
@@ -133,7 +133,7 @@ Puedes sobrescribir cualquier layout o include del kit creando un archivo con el
 ```sh
 npm install                       # raíz: workspaces (packages/lms-kit + demo)
 cd packages/jekyll-boolean-lms-kit && bundle install && bundle exec rake test
-npm test -w @boolean/lms-kit      # motor de fórmulas de la planilla
+npm test -w @booleancl/lms-kit      # motor de fórmulas de la planilla
 cd demo && bundle install
 bin/dev                           # Vite + Jekyll con overmind (requiere tmux) → http://localhost:4000
 ```
@@ -147,9 +147,7 @@ bin/dev                           # Vite + Jekyll con overmind (requiere tmux) �
    `packages/lms-kit/package.json` (deben coincidir).
 2. Commit, `git tag vX.Y.Z` y `git push --follow-tags`.
 3. El workflow `.github/workflows/release.yml` verifica las versiones, corre los tests y crea la GitHub Release
-   con `boolean-lms-kit-X.Y.Z.tgz` adjunto. Los sitios actualizan el `tag:` del `Gemfile` y la URL del tarball.
-
-## Estado
-
-v0.1 en curso: Python, JS y SQL desde archivos, planilla desde CSV, generator, Liquid tags, reveal y KaTeX.
-Para v0.2: ejemplos web HTML/CSS/JS (`{% web_example %}`, hoy es un stub), runner QuickJS y challenges con Jasmine.
+   con `booleancl-lms-kit-X.Y.Z.tgz` adjunto.
+4. Publica el paquete npm: `cd packages/lms-kit && npm publish --access public` (requiere sesión o token con permiso
+   sobre el scope `@booleancl`; con 2FA, usa `--otp=<código>` o un token granular con bypass 2FA).
+5. Los sitios actualizan el `tag:` del `Gemfile` y la versión de `@booleancl/lms-kit` en `package.json`.

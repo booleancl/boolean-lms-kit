@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@boolean/lms-kit": "*"
+    "@booleancl/lms-kit": "*"
   },
   "devDependencies": {
     "vite": "^5.4.2",

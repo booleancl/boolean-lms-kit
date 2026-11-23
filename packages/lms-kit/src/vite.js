@@ -72,7 +72,7 @@ export default function lmsKit({ entrypoints = {}, entrypointsDir = "entrypoints
 
           const key = `${entrypointsDir}/${name}.js`
           const file = path.join(dir, `${name}.js`)
-          modules.set(file, `import "@boolean/lms-kit/${runtime}"\n`)
+          modules.set(file, `import "@booleancl/lms-kit/${runtime}"\n`)
           urls.set(`/${key}`, file)
           input[key] = file
         }
@@ -81,7 +81,7 @@ export default function lmsKit({ entrypoints = {}, entrypointsDir = "entrypoints
         return {
           build: { [optionsKey]: { input } },
           // Vite no escanea módulos virtuales: sin esto, en dev no pre-empaqueta CodeMirror ni reveal.
-          optimizeDeps: { include: OPTIMIZE_DEPS.map((dep) => `@boolean/lms-kit > ${dep}`) },
+          optimizeDeps: { include: OPTIMIZE_DEPS.map((dep) => `@booleancl/lms-kit > ${dep}`) },
           // Si el kit está enlazado (workspace, `npm link`), sus archivos quedan fuera de la raíz del
           // sitio y el dev server los rechaza. Definir `allow` reemplaza el default, por eso se repite.
           server: { fs: { allow: [searchForWorkspaceRoot(root), KIT_DIR] } },

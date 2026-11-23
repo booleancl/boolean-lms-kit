@@ -1,5 +1,5 @@
 # Al hacer push de un tag vX.Y.Z: verifica que coincida con las versiones de la gema y del paquete npm,
-# corre los tests y publica una GitHub Release con el tarball de @boolean/lms-kit adjunto.
+# corre los tests y publica una GitHub Release con el tarball de @booleancl/lms-kit adjunto.
 name: Release
 
 on:
@@ -35,12 +35,12 @@ jobs:
 
       - name: Tests
         run: |
-          npm install --workspace @boolean/lms-kit
-          npm test --workspace @boolean/lms-kit
+          npm install --workspace @booleancl/lms-kit
+          npm test --workspace @booleancl/lms-kit
           (cd packages/jekyll-boolean-lms-kit && bundle exec rake test)
 
       - name: Empaquetar
-        run: npm pack --workspace @boolean/lms-kit
+        run: npm pack --workspace @booleancl/lms-kit
 
       - name: Crear release
         env:
