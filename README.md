@@ -113,11 +113,39 @@ window.addEventListener("message", (event) => {
 El ajuste de altura lo hace `_includes/lms-kit/iframe.html`. Si tu sitio sobrescribe ese include,
 actualízalo para conservarlo.
 
+## Paginación
+
+Enlaces **anterior / siguiente** que recorren las páginas en el orden del menú lateral de just-the-docs:
+la portada y las páginas bajo `/docs/` que tienen `title` y no tienen `nav_exclude`.
+
+just-the-docs define su propio `footer_custom.html`, que tiene prioridad sobre los includes de la gema, así
+que el sitio debe incluirlos en su `_includes/footer_custom.html`:
+
+```liquid
+{% include lms-kit/page-nav.html %}
+```
+
+```yaml
+lms_kit:
+  pagination:
+    root: /docs/
+    prev_label: Atrás                  # opcional
+    next_label: Siguiente              # opcional
+    aria_label: Paginación del curso   # opcional
+```
+
+- La jerarquía se arma con `parent`, `grand_parent` y `ancestor`. Una página cuyo padre no existe queda fuera.
+- El orden es `nav_order` (primero números, luego texto) y después el título. No se consideran
+  `child_nav_order` ni otras opciones de orden de just-the-docs.
+- No incluye colecciones.
+- El color de los bordes se cambia con la variable CSS `--lms-nav-border`.
+- `pagination: false` la desactiva.
+
 ## Paquetes
 
 | Carpeta | Paquete | Contenido |
 | --- | --- | --- |
-| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-quiz` / `lms-katex`, includes |
+| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, paginación, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-quiz` / `lms-katex`, includes |
 | `packages/lms-kit` | npm `@booleancl/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, mapas mentales (markmap), cuestionarios, reveal.js, plugin de Vite |
 | `demo/` | — | sitio de ejemplo y documentación |
 
@@ -130,7 +158,7 @@ actualízalo para conservarlo.
      gem "jekyll-boolean-lms-kit",
          git: "https://github.com/booleancl/boolean-lms-kit",
          glob: "packages/jekyll-boolean-lms-kit/*.gemspec",
-         tag: "v0.1.2"
+         tag: "v0.1.3"
    end
    ```
    y en `_config.yml`:
@@ -144,13 +172,14 @@ actualízalo para conservarlo.
      quiz_source: _quizzes
      quiz_prefix: /quizzes
      quiz: { min_logro: 0.6 }   # además: mensaje_aprobado, mensaje_repaso
+     pagination: { root: /docs/ }   # false la desactiva
      pyodide_version: "0.26.4"
      entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal, mindmap: lms-mindmap, quiz: lms-quiz }
    ```
 2. Instala el paquete npm desde [npm](https://www.npmjs.com/package/@booleancl/lms-kit)
    (usa la misma versión que el `tag` de la gema):
    ```sh
-   npm install @booleancl/lms-kit@0.1.2
+   npm install @booleancl/lms-kit@0.1.3
    ```
    y agrega el plugin en `vite.config.ts` (es el único archivo de Vite que se toca):
    ```ts

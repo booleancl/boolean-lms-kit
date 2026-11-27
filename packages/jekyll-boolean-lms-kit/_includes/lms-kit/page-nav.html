@@ -1,0 +1,33 @@
+{%- comment -%}
+  Enlaces "anterior / siguiente" (ver lib/jekyll/boolean_lms_kit/pagination.rb). En just-the-docs,
+  incluirlo desde el `_includes/footer_custom.html` del sitio.
+  Textos: lms_kit.pagination.prev_label, next_label y aria_label.
+  Estilos: se sobrescriben con la clase .page-nav o la variable --lms-nav-border.
+{%- endcomment -%}
+{%- if page.prev_page or page.next_page %}
+{%- assign lms_pagination = site.lms_kit.pagination %}
+<style>
+  .page-nav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--lms-nav-border, rgba(128, 128, 128, .2)); }
+  .page-nav .page-nav__link { display: flex; flex-direction: column; flex: 1 1 14rem; max-width: 24rem; padding: .75rem 1rem; border: 1px solid var(--lms-nav-border, rgba(128, 128, 128, .2)); border-radius: 6px; background-image: none; text-decoration: none; box-shadow: 0 1px 2px rgba(0, 0, 0, .06); }
+  .page-nav .page-nav__link:hover { border-color: currentColor; background-color: rgba(128, 128, 128, .06); }
+  .page-nav .page-nav__link--next { margin-left: auto; text-align: right; }
+  .page-nav__dir { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; opacity: .65; }
+  .page-nav__title { font-weight: 500; }
+</style>
+<nav class="page-nav" aria-label="{{ lms_pagination.aria_label | default: 'Paginación del curso' | escape }}">
+  {%- if page.prev_page %}
+  <a class="page-nav__link page-nav__link--prev" href="{{ page.prev_page.url | relative_url }}" rel="prev">
+    <span class="page-nav__dir">&larr; {{ lms_pagination.prev_label | default: 'Atrás' | escape }}</span>
+    <span class="page-nav__title">{{ page.prev_page.title | escape }}</span>
+  </a>
+  {%- else %}
+  <span></span>
+  {%- endif %}
+  {%- if page.next_page %}
+  <a class="page-nav__link page-nav__link--next" href="{{ page.next_page.url | relative_url }}" rel="next">
+    <span class="page-nav__dir">{{ lms_pagination.next_label | default: 'Siguiente' | escape }} &rarr;</span>
+    <span class="page-nav__title">{{ page.next_page.title | escape }}</span>
+  </a>
+  {%- endif %}
+</nav>
+{%- endif %}

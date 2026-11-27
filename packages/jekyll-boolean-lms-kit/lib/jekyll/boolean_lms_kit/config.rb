@@ -19,6 +19,8 @@ module Jekyll
                               "a intentarlo. Anota en tu bitácora qué vas a repasar.",
       },
       "pyodide_version" => "0.26.4",
+      # Enlaces anterior / siguiente; `false` los desactiva.
+      "pagination"      => { "root" => "/docs/" },
       "entrypoints"     => {
         "python"     => "lms-python",
         "javascript" => "lms-javascript",

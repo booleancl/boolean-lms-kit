@@ -50,6 +50,7 @@ ruta local; sirve de documentación y de prueba.
   HyperFormula/Handsontable: sus licencias (GPL/comercial) no son compatibles con distribuir el kit como MIT.
 - Cuestionarios autocorregidos (v0.1.2): `.yml` en `_quizzes/` → `{% quiz ruta.yml %}`; validación en
   `quiz_parser.rb` y comportamiento en `packages/lms-kit/src/quiz/`.
+- Paginación anterior/siguiente (v0.1.3): `pagination.rb` + `lms-kit/page-nav.html`.
 - Después (v0.2): editor web de pestañas (reemplazar/reescribir BOB; conservar su licencia
   si se mantiene) y challenges con Jasmine (`is_challenge`, `test_files`).
 
