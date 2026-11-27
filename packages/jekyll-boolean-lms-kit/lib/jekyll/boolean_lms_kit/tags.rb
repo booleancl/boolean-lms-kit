@@ -85,8 +85,8 @@ module Jekyll
 
     class WebExampleTag < Liquid::Tag
       def render(_context)
-        Jekyll.logger.warn "LMS Kit:", "{% web_example #{@markup.strip} %} aún no está soportado."
-        "<!-- web_example: pendiente -->"
+        Jekyll.logger.warn "LMS Kit:", "{% web_example #{@markup.strip} %} se soportará en v0.2."
+        "<!-- web_example: pendiente para v0.2 -->"
       end
     end
   end

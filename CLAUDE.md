@@ -48,9 +48,9 @@ ruta local; sirve de documentación y de prueba.
 - SQL (SQLite con sql.js; `-- schema:` / `-- db:`) y planilla desde `.csv` (motor de fórmulas propio en
   `packages/lms-kit/src/sheet/` + funciones de formulajs, nombres en español e inglés). No usar
   HyperFormula/Handsontable: sus licencias (GPL/comercial) no son compatibles con distribuir el kit como MIT.
-- Cuestionarios autocorregidos (v0.2): `.yml` en `_quizzes/` → `{% quiz ruta.yml %}`; validación en
+- Cuestionarios autocorregidos (v0.1.2): `.yml` en `_quizzes/` → `{% quiz ruta.yml %}`; validación en
   `quiz_parser.rb` y comportamiento en `packages/lms-kit/src/quiz/`.
-- Pendiente: editor web de pestañas (reemplazar/reescribir BOB; conservar su licencia
+- Después (v0.2): editor web de pestañas (reemplazar/reescribir BOB; conservar su licencia
   si se mantiene) y challenges con Jasmine (`is_challenge`, `test_files`).
 
 ## Origen en intro-dev (para migrar)

@@ -2,6 +2,6 @@
 
 module Jekyll
   module BooleanLmsKit
-    VERSION = "0.2.0"
+    VERSION = "0.1.2"
   end
 end

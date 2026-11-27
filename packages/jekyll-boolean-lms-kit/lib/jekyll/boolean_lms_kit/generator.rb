@@ -45,7 +45,7 @@ module Jekyll
           full = File.join(source_root, rel)
           if File.directory?(full)
             if File.exist?(File.join(full, "index.html"))
-              Jekyll.logger.warn "LMS Kit:", "#{rel}/ es un ejemplo web; aún no está soportado, se omite."
+              Jekyll.logger.warn "LMS Kit:", "#{rel}/ es un ejemplo web; se soportará en v0.2, se omite."
             end
             next
           end

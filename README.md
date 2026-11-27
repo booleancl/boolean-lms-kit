@@ -130,7 +130,7 @@ actualízalo para conservarlo.
      gem "jekyll-boolean-lms-kit",
          git: "https://github.com/booleancl/boolean-lms-kit",
          glob: "packages/jekyll-boolean-lms-kit/*.gemspec",
-         tag: "v0.2.0"
+         tag: "v0.1.2"
    end
    ```
    y en `_config.yml`:
@@ -150,7 +150,7 @@ actualízalo para conservarlo.
 2. Instala el paquete npm desde [npm](https://www.npmjs.com/package/@booleancl/lms-kit)
    (usa la misma versión que el `tag` de la gema):
    ```sh
-   npm install @booleancl/lms-kit@0.2.0
+   npm install @booleancl/lms-kit@0.1.2
    ```
    y agrega el plugin en `vite.config.ts` (es el único archivo de Vite que se toca):
    ```ts
