@@ -113,6 +113,26 @@ window.addEventListener("message", (event) => {
 El ajuste de altura lo hace `_includes/lms-kit/iframe.html`. Si tu sitio sobrescribe ese include,
 actualízalo para conservarlo.
 
+## Laboratorios
+
+Tarjeta que enlaza el repositorio de partida de un laboratorio. A diferencia de las demás etiquetas, no
+genera una página ni usa un iframe.
+
+```liquid
+{% lab nombre-del-repositorio %}
+{% lab nombre-del-repositorio org=otra-organizacion host=gitlab.com %}
+```
+
+`org` y `host` por defecto son `booleancl` y `github.com`; se cambian en `_config.yml`:
+
+```yaml
+lms_kit:
+  lab:
+    org: mi-organizacion
+```
+
+El HTML y los estilos están en `_includes/lms-kit/lab.html`, que un sitio puede sobrescribir.
+
 ## Paginación
 
 Enlaces **anterior / siguiente** que recorren las páginas en el orden del menú lateral de just-the-docs:
@@ -145,7 +165,7 @@ lms_kit:
 
 | Carpeta | Paquete | Contenido |
 | --- | --- | --- |
-| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, paginación, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-quiz` / `lms-katex`, includes |
+| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, paginación, tarjeta de laboratorio, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-quiz` / `lms-katex`, includes |
 | `packages/lms-kit` | npm `@booleancl/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, mapas mentales (markmap), cuestionarios, reveal.js, plugin de Vite |
 | `demo/` | — | sitio de ejemplo y documentación |
 
@@ -158,7 +178,7 @@ lms_kit:
      gem "jekyll-boolean-lms-kit",
          git: "https://github.com/booleancl/boolean-lms-kit",
          glob: "packages/jekyll-boolean-lms-kit/*.gemspec",
-         tag: "v0.1.3"
+         tag: "v0.1.4"
    end
    ```
    y en `_config.yml`:
@@ -173,13 +193,14 @@ lms_kit:
      quiz_prefix: /quizzes
      quiz: { min_logro: 0.6 }   # además: mensaje_aprobado, mensaje_repaso
      pagination: { root: /docs/ }   # false la desactiva
+     lab: { org: booleancl, host: github.com }
      pyodide_version: "0.26.4"
      entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal, mindmap: lms-mindmap, quiz: lms-quiz }
    ```
 2. Instala el paquete npm desde [npm](https://www.npmjs.com/package/@booleancl/lms-kit)
    (usa la misma versión que el `tag` de la gema):
    ```sh
-   npm install @booleancl/lms-kit@0.1.3
+   npm install @booleancl/lms-kit@0.1.4
    ```
    y agrega el plugin en `vite.config.ts` (es el único archivo de Vite que se toca):
    ```ts

@@ -1,0 +1,46 @@
+{%- comment -%}
+  Tarjeta de laboratorio con el repositorio de partida. Se usa con {% raw %}{% lab repo org=... host=... %}{% endraw %}
+  (recibe `lms_lab`) o como include con los parámetros repo, org y host.
+  org y host: por defecto lms_kit.lab (booleancl y github.com).
+  El <div> contenedor evita que kramdown reinterprete el HTML dentro de una página Markdown.
+  Estilos: se sobrescriben con las clases .lab-card.
+{%- endcomment -%}
+{%- assign lms_lab_args = lms_lab | default: include -%}
+{%- assign lms_repo = lms_lab_args.repo | escape -%}
+{%- assign lms_org = lms_lab_args.org | default: site.lms_kit.lab.org | default: "booleancl" | escape -%}
+{%- assign lms_host = lms_lab_args.host | default: site.lms_kit.lab.host | default: "github.com" | escape -%}
+{%- if lms_host contains "github" -%}{%- assign lms_platform = "GitHub" -%}{%- elsif lms_host contains "gitlab" -%}{%- assign lms_platform = "GitLab" -%}{%- else -%}{%- assign lms_platform = lms_host -%}{%- endif -%}
+<div class="lab-card-wrap">
+<style>
+.lab-card-wrap .lab-card { position: relative; display: flex; align-items: center; gap: 1rem; margin: 2rem 0; padding: 1.5rem 2rem; border: 0; border-radius: 12px; background: linear-gradient(135deg, #24292f 0%, #3b2a8f 55%, #7253ed 100%); color: #fff; text-decoration: none; box-shadow: 0 8px 24px rgba(59, 42, 143, .35); transition: transform .15s ease, box-shadow .15s ease; overflow: hidden; }
+.lab-card-wrap .lab-card::after { content: ""; position: absolute; right: -40px; top: -40px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255, 255, 255, .08); pointer-events: none; }
+.lab-card-wrap a.lab-card:hover, .lab-card-wrap a.lab-card:focus-visible { color: #fff; background-image: linear-gradient(135deg, #24292f 0%, #3b2a8f 45%, #7253ed 100%); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(59, 42, 143, .5); text-decoration: none; }
+.lab-card-wrap a.lab-card:focus-visible { outline: 3px solid #f5c542; outline-offset: 3px; }
+.lab-card__badge { position: absolute; top: 0; left: 0; padding: 2px 14px; border-radius: 0 0 4px 0; background: #f5c542; color: #24292f; font-size: 12px; font-weight: 700; letter-spacing: .12em; }
+.lab-card__icon { flex: none; margin-top: .5rem; }
+.lab-card__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.lab-card__eyebrow { margin-top: .25rem; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255, 255, 255, .75); }
+.lab-card__repo { font-family: "SFMono-Regular", Menlo, Consolas, monospace; font-size: 20px; font-weight: 700; overflow-wrap: anywhere; }
+.lab-card__org { color: rgba(255, 255, 255, .65); font-weight: 400; }
+.lab-card__hint { font-size: 14px; color: rgba(255, 255, 255, .85); }
+.lab-card__cta { flex: none; padding: .5rem 1rem; border-radius: 4px; background: #fff; color: #3b2a8f; font-weight: 700; white-space: nowrap; }
+.lab-card-wrap .lab-card--error { background: #fdecea; color: #8a1c13; box-shadow: none; }
+@media (max-width: 650px) { .lab-card-wrap .lab-card { flex-direction: column; align-items: flex-start; } .lab-card__cta { align-self: stretch; text-align: center; } }
+</style>
+{%- if lms_repo and lms_repo != "" %}
+<a class="lab-card" href="https://{{ lms_host }}/{{ lms_org }}/{{ lms_repo }}" target="_blank" rel="noopener" aria-label="Abrir en {{ lms_platform }} el repositorio {{ lms_org }}/{{ lms_repo }}">
+<span class="lab-card__badge" aria-hidden="true">LAB</span>
+{%- if lms_platform == "GitHub" %}
+<svg class="lab-card__icon" viewBox="0 0 16 16" width="44" height="44" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+{%- endif %}
+<span class="lab-card__body">
+<span class="lab-card__eyebrow">Repositorio del laboratorio</span>
+<span class="lab-card__repo"><span class="lab-card__org">{{ lms_org }}/</span>{{ lms_repo }}</span>
+<span class="lab-card__hint">Crea tu copia del repositorio, desarrolla el Lab siguiendo su README y entrega tu trabajo allí.</span>
+</span>
+<span class="lab-card__cta">Abrir en {{ lms_platform }} <span aria-hidden="true">→</span></span>
+</a>
+{%- else %}
+<p class="lab-card lab-card--error">El include <code>lms-kit/lab.html</code> necesita el parámetro <code>repo</code>.</p>
+{%- endif %}
+</div>

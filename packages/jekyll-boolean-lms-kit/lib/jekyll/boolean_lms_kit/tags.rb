@@ -12,7 +12,7 @@ module Jekyll
       def initialize(tag_name, markup, tokens)
         super
         @path, *rest = markup.strip.split(%r!\s+!, 2)
-        raise SyntaxError, "#{tag_name}: falta la ruta del ejemplo" if @path.to_s.empty?
+        raise SyntaxError, "#{tag_name}: falta la ruta o el nombre del recurso" if @path.to_s.empty?
 
         @args = rest.join.scan(ARG_RE).to_h { |k, v| [k, v.delete_prefix('"').delete_suffix('"').delete_prefix("'").delete_suffix("'")] }
       end
@@ -69,6 +69,18 @@ module Jekyll
       end
     end
 
+    # {% lab repo org=otra host=gitlab.com %} — tarjeta con el repositorio de partida de un laboratorio.
+    # No genera una página ni un iframe: enlaza el repositorio.
+    class LabTag < ExampleTag
+      def render(context)
+        defaults = BooleanLmsKit.config(context.registers[:site])["lab"]
+        context.stack do
+          context["lms_lab"] = defaults.merge(@args).merge("repo" => render_variable(context, @path))
+          Liquid::Template.parse("{% include lms-kit/lab.html %}").render!(context)
+        end
+      end
+    end
+
     # {% lms_entrypoint python %} — script del entrypoint de Vite configurado en lms_kit.entrypoints.
     # `{% vite_javascript_tag {{ var }} %}` no sirve en layouts compartidos: jekyll-vite guarda el
     # nombre resuelto en la primera página y lo reutiliza en las siguientes. Aquí se parsea uno nuevo.
@@ -98,6 +110,7 @@ Liquid::Template.register_tag("sql_example", Jekyll::BooleanLmsKit::ExampleTag)
 Liquid::Template.register_tag("sheet_example", Jekyll::BooleanLmsKit::ExampleTag)
 Liquid::Template.register_tag("slides", Jekyll::BooleanLmsKit::SlidesTag)
 Liquid::Template.register_tag("quiz", Jekyll::BooleanLmsKit::QuizTag)
+Liquid::Template.register_tag("lab", Jekyll::BooleanLmsKit::LabTag)
 Liquid::Template.register_tag("lms_entrypoint", Jekyll::BooleanLmsKit::EntrypointTag)
 Liquid::Template.register_tag("web_example", Jekyll::BooleanLmsKit::WebExampleTag)
 Liquid::Template.register_tag("mindmap", Jekyll::BooleanLmsKit::ExampleTag)

@@ -19,6 +19,8 @@ module Jekyll
                               "a intentarlo. Anota en tu bitácora qué vas a repasar.",
       },
       "pyodide_version" => "0.26.4",
+      # Valores por defecto de la tarjeta de laboratorio.
+      "lab"             => { "org" => "booleancl", "host" => "github.com" },
       # Enlaces anterior / siguiente; `false` los desactiva.
       "pagination"      => { "root" => "/docs/" },
       "entrypoints"     => {

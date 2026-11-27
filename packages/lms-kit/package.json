@@ -1,6 +1,6 @@
 {
   "name": "@booleancl/lms-kit",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Editores interactivos (Python/Pyodide, JavaScript, SQL/SQLite), planilla de cálculo y diapositivas reveal.js y cuestionarios autocorregidos para sitios LMS Jamstack.",
   "license": "MIT",
   "author": "Academia Boolean SpA",

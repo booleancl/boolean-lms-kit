@@ -65,6 +65,12 @@ Un `.yml` en `_quizzes/` es un cuestionario autocorregido. El iframe ajusta su a
 
 {% quiz lenguajes.yml ae=2 %}
 
+## Laboratorios
+
+`{% raw %}{% lab boolean-lms-kit %}{% endraw %}`
+
+{% lab boolean-lms-kit %}
+
 ## Diapositivas
 
 `_slides/intro.md` → `{% raw %}{% slides intro.md %}{% endraw %}`
