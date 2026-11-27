@@ -1,7 +1,7 @@
 # @booleancl/lms-kit
 
 Frontend de [boolean-lms-kit](https://github.com/booleancl/boolean-lms-kit): editor CodeMirror 6, runners
-(Pyodide, JavaScript, SQLite), planilla de cálculo, reveal.js y el plugin de Vite `@booleancl/lms-kit/vite`.
+(Pyodide, JavaScript, SQLite), planilla de cálculo, cuestionarios, reveal.js y el plugin de Vite `@booleancl/lms-kit/vite`.
 
 Se usa junto a la gema `jekyll-boolean-lms-kit`.
 

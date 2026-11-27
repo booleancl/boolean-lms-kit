@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "cgi"
+
 module Jekyll
   module BooleanLmsKit
     # {% python_example ruta.py height=400 %} — inserta un iframe con la página generada del ejemplo.
@@ -50,6 +52,23 @@ module Jekyll
       end
     end
 
+    # {% quiz ruta.yml ae=2 height=600 %} — cuestionario autocorregido de `lms_kit.quiz_source`.
+    # `ae` filtra por aprendizaje esperado. Sin `height`, el iframe se ajusta al alto del contenido.
+    class QuizTag < ExampleTag
+      private
+
+      def page_url(config, path)
+        url = BooleanLmsKit.join_url(config["quiz_prefix"], "#{path.delete_suffix(File.extname(path))}.html")
+        @args["ae"] ? "#{url}?ae=#{CGI.escape(@args['ae'])}" : url
+      end
+
+      def render_iframe(context, src, args)
+        defaults = { "title" => "Cuestionario" }
+        defaults["autoheight"] = "true" unless args["height"]
+        super(context, src, defaults.merge(args))
+      end
+    end
+
     # {% lms_entrypoint python %} — script del entrypoint de Vite configurado en lms_kit.entrypoints.
     # `{% vite_javascript_tag {{ var }} %}` no sirve en layouts compartidos: jekyll-vite guarda el
     # nombre resuelto en la primera página y lo reutiliza en las siguientes. Aquí se parsea uno nuevo.
@@ -66,8 +85,8 @@ module Jekyll
 
     class WebExampleTag < Liquid::Tag
       def render(_context)
-        Jekyll.logger.warn "LMS Kit:", "{% web_example #{@markup.strip} %} se soportará en v0.2."
-        "<!-- web_example: pendiente para v0.2 -->"
+        Jekyll.logger.warn "LMS Kit:", "{% web_example #{@markup.strip} %} aún no está soportado."
+        "<!-- web_example: pendiente -->"
       end
     end
   end
@@ -78,6 +97,7 @@ Liquid::Template.register_tag("js_example", Jekyll::BooleanLmsKit::ExampleTag)
 Liquid::Template.register_tag("sql_example", Jekyll::BooleanLmsKit::ExampleTag)
 Liquid::Template.register_tag("sheet_example", Jekyll::BooleanLmsKit::ExampleTag)
 Liquid::Template.register_tag("slides", Jekyll::BooleanLmsKit::SlidesTag)
+Liquid::Template.register_tag("quiz", Jekyll::BooleanLmsKit::QuizTag)
 Liquid::Template.register_tag("lms_entrypoint", Jekyll::BooleanLmsKit::EntrypointTag)
 Liquid::Template.register_tag("web_example", Jekyll::BooleanLmsKit::WebExampleTag)
 Liquid::Template.register_tag("mindmap", Jekyll::BooleanLmsKit::ExampleTag)

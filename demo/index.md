@@ -54,6 +54,17 @@ opción de markmap (`colorFreezeLevel`, `initialExpandLevel`, `duration`…).
 
 {% mindmap mapas/lenguajes.md height=500 %}
 
+## Cuestionarios
+
+Un `.yml` en `_quizzes/` es un cuestionario autocorregido. El iframe ajusta su altura al contenido y
+`ae=` filtra por aprendizaje esperado.
+
+`_quizzes/lenguajes.yml` → `{% raw %}{% quiz lenguajes.yml %}{% endraw %}`
+
+{% quiz lenguajes.yml %}
+
+{% quiz lenguajes.yml ae=2 %}
+
 ## Diapositivas
 
 `_slides/intro.md` → `{% raw %}{% slides intro.md %}{% endraw %}`

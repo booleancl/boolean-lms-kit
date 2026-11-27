@@ -9,6 +9,15 @@ module Jekyll
       "url_prefix"      => "/interactive",
       "slides_source"   => "_slides",
       "slides_prefix"   => "/slides",
+      "quiz_source"     => "_quizzes",
+      "quiz_prefix"     => "/quizzes",
+      # Valores por defecto de los cuestionarios; cada archivo puede sobrescribirlos.
+      "quiz"            => {
+        "min_logro"        => 0.6,
+        "mensaje_aprobado" => "¡Buen trabajo! Registra en tu bitácora qué pregunta te costó más y por qué.",
+        "mensaje_repaso"   => "Te recomendamos repasar los contenidos de las preguntas marcadas y volver " \
+                              "a intentarlo. Anota en tu bitácora qué vas a repasar.",
+      },
       "pyodide_version" => "0.26.4",
       "entrypoints"     => {
         "python"     => "lms-python",
@@ -17,6 +26,7 @@ module Jekyll
         "sheet"      => "lms-sheet",
         "reveal"     => "lms-reveal",
         "mindmap"    => "lms-mindmap",
+        "quiz"       => "lms-quiz",
       },
     }.freeze
 

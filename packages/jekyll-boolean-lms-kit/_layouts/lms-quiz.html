@@ -1,0 +1,51 @@
+{%- comment -%}
+  Cuestionario autocorregido. Lo crea el generator a partir de un .yml en lms_kit.quiz_source:
+  `page.questions` (validadas), `page.quiz` (umbral y mensajes) y `page.quiz_path`.
+  Las respuestas quedan en el HTML: sirve para autoevaluación, no para calificar.
+{%- endcomment -%}
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'es-CL' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | escape }}</title>
+  {% vite_client_tag %}
+  {% lms_entrypoint quiz %}
+</head>
+<body>
+  <main id="lms-quiz" class="lms-quiz" data-quiz="{{ page.quiz_path | escape }}"
+        data-min-logro="{{ page.quiz.min_logro }}"
+        data-mensaje-aprobado="{{ page.quiz.mensaje_aprobado | escape }}"
+        data-mensaje-repaso="{{ page.quiz.mensaje_repaso | escape }}">
+    <header class="lms-header">
+      <span class="lms-badge lms-badge--quiz">Quiz</span>
+      <h1 class="lms-title">{{ page.title | escape }}</h1>
+    </header>
+    <form class="lms-quiz-form">
+      {%- for item in page.questions %}
+      {%- assign q = forloop.index %}
+      <fieldset class="lms-quiz-item" data-ae="{{ item.ae | escape }}">
+        <legend class="lms-quiz-question">
+          <span class="lms-quiz-number">{{ q }}.</span>
+          {%- if item.ae %} <span class="lms-quiz-ae">AE{{ item.ae | escape }}</span>{% endif %}
+          {{ item.pregunta | escape }}
+        </legend>
+        {%- for opcion in item.opciones %}
+        <label class="lms-quiz-option">
+          <input type="radio" name="q{{ q }}" value="{{ forloop.index }}"
+            {%- if opcion.correcta %} data-correct{% endif %} data-feedback="{{ opcion.feedback | escape }}">
+          <span>{{ opcion.texto | escape }}</span>
+        </label>
+        {%- endfor %}
+        <p class="lms-quiz-feedback" aria-live="polite" hidden></p>
+      </fieldset>
+      {%- endfor %}
+      <div class="lms-toolbar">
+        <button type="submit" class="lms-button lms-run">Revisar respuestas</button>
+        <button type="reset" class="lms-button">Intentar de nuevo</button>
+      </div>
+      <p class="lms-quiz-result" aria-live="polite" hidden></p>
+    </form>
+  </main>
+</body>
+</html>

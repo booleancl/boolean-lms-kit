@@ -1,7 +1,7 @@
 {
   "name": "@booleancl/lms-kit",
-  "version": "0.1.1",
-  "description": "Editores interactivos (Python/Pyodide, JavaScript, SQL/SQLite), planilla de cálculo y diapositivas reveal.js para sitios LMS Jamstack.",
+  "version": "0.2.0",
+  "description": "Editores interactivos (Python/Pyodide, JavaScript, SQL/SQLite), planilla de cálculo y diapositivas reveal.js y cuestionarios autocorregidos para sitios LMS Jamstack.",
   "license": "MIT",
   "author": "Academia Boolean SpA",
   "homepage": "https://github.com/booleancl/boolean-lms-kit",
@@ -22,6 +22,7 @@
     "./sheet": "./src/sheet.js",
     "./reveal": "./src/reveal.js",
     "./mindmap": "./src/mindmap.js",
+    "./quiz": "./src/quiz.js",
     "./editor": "./src/editor/create-editor.js",
     "./editor.css": "./src/editor/editor.css",
     "./vite": "./src/vite.js"
@@ -33,7 +34,8 @@
     "./src/sql.js",
     "./src/sheet.js",
     "./src/reveal.js",
-    "./src/mindmap.js"
+    "./src/mindmap.js",
+    "./src/quiz.js"
   ],
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",

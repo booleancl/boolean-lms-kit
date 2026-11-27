@@ -1,5 +1,5 @@
 /**
- * TODO(v0.2): runner de JavaScript aislado con quickjs-emscripten
+ * TODO: runner de JavaScript aislado con quickjs-emscripten
  * (sin acceso al DOM, con límite de tiempo y memoria). Misma interfaz que browserJsRunner.
  */
 export function quickjsRunner() {

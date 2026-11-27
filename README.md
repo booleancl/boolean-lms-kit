@@ -24,6 +24,7 @@ Cada archivo de `_examples/` se convierte en una página `/interactive/<ruta>.ht
 | `.js` | editor + JavaScript en el navegador | `// %%` |
 | `.sql` | editor + SQLite (sql.js), resultados en tabla | `-- %%` |
 | `.csv` | planilla de cálculo editable con fórmulas | — |
+| `.md` | mapa mental (markmap) | — |
 
 Cada celda es una pestaña. Los archivos y carpetas que empiezan con `_` no generan página
 (sirven para esquemas SQL o bases de datos compartidas).
@@ -63,12 +64,61 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
 - Teclado: flechas, Enter/F2 o escribir para editar, Enter/Tab para confirmar, Esc para cancelar, Supr para borrar.
   "Descargar CSV" guarda la planilla con sus fórmulas (se puede abrir en Sheets o Excel).
 
+### Cuestionarios
+
+Cada `.yml` de `_quizzes/` genera una página `/quizzes/<ruta>.html`:
+
+```yaml
+- ae: 1                                    # opcional: aprendizaje esperado
+  pregunta: ¿Qué cláusula filtra filas?
+  opciones:                                # dos o más; exactamente una correcta
+    - texto: WHERE
+      feedback: Correcto.                  # opcional
+      correcta: true
+    - texto: ORDER BY
+      feedback: Ordena, no filtra.
+```
+
+Para definir título, umbral o mensajes en un archivo, usa un mapa con las preguntas en `preguntas:`:
+
+```yaml
+title: Control de lectura
+min_logro: 0.8                             # proporción mínima de respuestas correctas
+mensaje_aprobado: ¡Bien hecho!
+mensaje_repaso: Repasa la unidad y vuelve a intentarlo.
+preguntas:
+  - pregunta: ...
+```
+
+Los valores por defecto de `min_logro` y los mensajes se cambian en `_config.yml` con `lms_kit.quiz`.
+
+```liquid
+{% quiz sql/control.yml %}
+{% quiz sql/control.yml ae=2 %}            <!-- solo las preguntas de ese aprendizaje -->
+{% quiz sql/control.yml height=700 %}      <!-- altura fija; sin height se ajusta al contenido -->
+```
+
+Un archivo inválido se informa en la salida de Jekyll y no genera página; la compilación continúa.
+Las respuestas correctas están en el HTML: sirve para autoevaluación, no para calificar.
+
+Al revisar las respuestas, el cuestionario envía el resultado a la página que lo contiene:
+
+```js
+window.addEventListener("message", (event) => {
+  if (event.origin !== location.origin || event.data?.type !== "lms-kit:quiz-result") return
+  const { quiz, ae, correct, total, score, passed } = event.data
+})
+```
+
+El ajuste de altura lo hace `_includes/lms-kit/iframe.html`. Si tu sitio sobrescribe ese include,
+actualízalo para conservarlo.
+
 ## Paquetes
 
 | Carpeta | Paquete | Contenido |
 | --- | --- | --- |
-| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-katex`, includes |
-| `packages/lms-kit` | npm `@booleancl/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, mapas mentales (markmap), reveal.js, plugin de Vite |
+| `packages/jekyll-boolean-lms-kit` | gem `jekyll-boolean-lms-kit` | generator, Liquid tags, layouts `lms-editor` / `lms-sheet` / `lms-mindmap` / `lms-reveal` / `lms-quiz` / `lms-katex`, includes |
+| `packages/lms-kit` | npm `@booleancl/lms-kit` | editor CodeMirror 6, runners (Pyodide, JS, SQLite), planilla con motor de fórmulas, mapas mentales (markmap), cuestionarios, reveal.js, plugin de Vite |
 | `demo/` | — | sitio de ejemplo y documentación |
 
 ## Uso en un sitio Jekyll
@@ -80,7 +130,7 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
      gem "jekyll-boolean-lms-kit",
          git: "https://github.com/booleancl/boolean-lms-kit",
          glob: "packages/jekyll-boolean-lms-kit/*.gemspec",
-         tag: "v0.1.1"
+         tag: "v0.2.0"
    end
    ```
    y en `_config.yml`:
@@ -91,13 +141,16 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
      url_prefix: /interactive
      slides_source: _slides
      slides_prefix: /slides
+     quiz_source: _quizzes
+     quiz_prefix: /quizzes
+     quiz: { min_logro: 0.6 }   # además: mensaje_aprobado, mensaje_repaso
      pyodide_version: "0.26.4"
-     entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal, mindmap: lms-mindmap }
+     entrypoints: { python: lms-python, javascript: lms-javascript, sql: lms-sql, sheet: lms-sheet, reveal: lms-reveal, mindmap: lms-mindmap, quiz: lms-quiz }
    ```
 2. Instala el paquete npm desde [npm](https://www.npmjs.com/package/@booleancl/lms-kit)
    (usa la misma versión que el `tag` de la gema):
    ```sh
-   npm install @booleancl/lms-kit@0.1.1
+   npm install @booleancl/lms-kit@0.2.0
    ```
    y agrega el plugin en `vite.config.ts` (es el único archivo de Vite que se toca):
    ```ts
@@ -107,7 +160,7 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
 
    export default defineConfig({ plugins: [RubyPlugin(), lmsKit()] })
    ```
-   El plugin crea los entrypoints `lms-python`, `lms-javascript`, `lms-sql`, `lms-sheet`, `lms-reveal` y `lms-mindmap` como módulos virtuales:
+   El plugin crea los entrypoints `lms-python`, `lms-javascript`, `lms-sql`, `lms-sheet`, `lms-reveal`, `lms-mindmap` y `lms-quiz` como módulos virtuales:
    no hace falta crear archivos en `_frontend/entrypoints/`. Si quieres personalizar uno, crea el archivo real
    con ese nombre (p. ej. `_frontend/entrypoints/lms-python.js` con `import "@booleancl/lms-kit/python"` y lo tuyo)
    y se usa ese. Si cambias los nombres en `lms_kit.entrypoints`, pásalos también al plugin:
@@ -119,6 +172,7 @@ Benjamín,3.2,4.5,"=SI(PROMEDIO(B3:C3)>=4;""Aprobado"";""Reprobado"")"
    {% sql_example sql/tienda.sql height=500 %}
    {% sheet_example planillas/notas.csv %}
    {% slides intro.md %}
+   {% quiz lenguajes.yml %}      # un .yml en lms_kit.quiz_source
 
    # Mapas mentales: un .md en lms_kit.source (solo visualización)
    {% mindmap mapas/lenguajes.md height=500 %}
@@ -133,7 +187,7 @@ Puedes sobrescribir cualquier layout o include del kit creando un archivo con el
 ```sh
 npm install                       # raíz: workspaces (packages/lms-kit + demo)
 cd packages/jekyll-boolean-lms-kit && bundle install && bundle exec rake test
-npm test -w @booleancl/lms-kit      # motor de fórmulas de la planilla
+npm test -w @booleancl/lms-kit      # planilla y cuestionarios
 cd demo && bundle install
 bin/dev                           # Vite + Jekyll con overmind (requiere tmux) → http://localhost:4000
 ```
@@ -145,7 +199,7 @@ bin/dev                           # Vite + Jekyll con overmind (requiere tmux) �
 
 1. Sube la versión en `packages/jekyll-boolean-lms-kit/lib/jekyll/boolean_lms_kit/version.rb` y en
    `packages/lms-kit/package.json` (deben coincidir).
-2. Commit, `git tag vX.Y.Z` y `git push --follow-tags`.
+2. Commit, `git tag -a vX.Y.Z -m vX.Y.Z` y `git push --follow-tags` (solo sube etiquetas anotadas).
 3. El workflow `.github/workflows/release.yml` verifica las versiones, corre los tests y crea la GitHub Release
    con `booleancl-lms-kit-X.Y.Z.tgz` adjunto.
 4. Publica el paquete npm: `cd packages/lms-kit && npm publish --access public` (requiere sesión o token con permiso

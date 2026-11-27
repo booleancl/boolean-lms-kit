@@ -13,6 +13,7 @@ const DEFAULT_ENTRYPOINTS = {
   sheet: "lms-sheet",
   reveal: "lms-reveal",
   mindmap: "lms-mindmap",
+  quiz: "lms-quiz",
 }
 
 const SOURCE_EXTS = [".js", ".mjs", ".ts", ".jsx", ".tsx"]
@@ -45,7 +46,7 @@ const OPTIMIZE_DEPS = [
  * Los nombres deben coincidir con `lms_kit.entrypoints` de `_config.yml`.
  *
  * @param {object} [options]
- * @param {{python?: string, javascript?: string, sql?: string, sheet?: string, reveal?: string, mindmap?: string}} [options.entrypoints]
+ * @param {{python?: string, javascript?: string, sql?: string, sheet?: string, reveal?: string, mindmap?: string, quiz?: string}} [options.entrypoints]
  * @param {string} [options.entrypointsDir="entrypoints"]  igual que `entrypointsDir` de config/vite.json
  */
 export default function lmsKit({ entrypoints = {}, entrypointsDir = "entrypoints" } = {}) {

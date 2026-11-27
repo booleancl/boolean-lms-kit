@@ -1,0 +1,18 @@
+title: Lenguajes de programación
+preguntas:
+  - ae: 1
+    pregunta: ¿Qué función imprime en la consola en Python?
+    opciones:
+      - texto: print()
+        feedback: Correcto, es una función incorporada.
+        correcta: true
+      - texto: console.log()
+        feedback: Esa es de JavaScript.
+  - ae: 2
+    pregunta: ¿Qué cláusula de SQL filtra filas?
+    opciones:
+      - texto: ORDER BY
+        feedback: Ordena el resultado, no lo filtra.
+      - texto: WHERE
+        feedback: Correcto.
+        correcta: true

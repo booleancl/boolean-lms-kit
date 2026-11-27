@@ -1,0 +1,23 @@
+/* Usa las variables --lms-* de editor.css (incluido el modo oscuro). */
+:root { --lms-ok: #1a7f37; }
+@media (prefers-color-scheme: dark) { :root { --lms-ok: #3fb950; } }
+
+.lms-quiz { display: flex; flex-direction: column; gap: .75rem; padding: .75rem; }
+.lms-badge--quiz { background: #c8b6ff; }
+.lms-quiz-form { margin: 0; }
+
+.lms-quiz-item { border: 1px solid var(--lms-border); border-radius: 4px; margin: 0 0 .75rem; padding: .5rem .75rem; }
+.lms-quiz-item--correct { border-color: var(--lms-ok); }
+.lms-quiz-item--incorrect { border-color: var(--lms-err); }
+.lms-quiz-question { font-weight: 600; padding: 0 .25rem; }
+.lms-quiz-ae {
+  font-size: .7rem; font-weight: 700; padding: .1rem .4rem; border-radius: 3px;
+  background: var(--lms-accent); color: #fff;
+}
+.lms-quiz-option { display: flex; gap: .5rem; align-items: baseline; padding: .2rem 0; cursor: pointer; }
+.lms-quiz-option input { accent-color: var(--lms-accent); }
+.lms-quiz-feedback { margin: .5rem 0 0; font-size: .9rem; }
+
+.lms-quiz-result { margin: .75rem 0 0; padding: .6rem .75rem; border-left: 4px solid var(--lms-err); background: var(--lms-console-bg); }
+.lms-quiz-result--ok { border-color: var(--lms-ok); }
+.lms-quiz [hidden] { display: none; }

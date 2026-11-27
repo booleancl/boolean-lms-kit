@@ -27,6 +27,7 @@ module Jekyll
         @assets = {}
         generate_examples
         generate_slides
+        generate_quizzes
       end
 
       private
@@ -44,7 +45,7 @@ module Jekyll
           full = File.join(source_root, rel)
           if File.directory?(full)
             if File.exist?(File.join(full, "index.html"))
-              Jekyll.logger.warn "LMS Kit:", "#{rel}/ es un ejemplo web; se soportará en v0.2, se omite."
+              Jekyll.logger.warn "LMS Kit:", "#{rel}/ es un ejemplo web; aún no está soportado, se omite."
             end
             next
           end
@@ -177,6 +178,41 @@ module Jekyll
           page.content = content
           @site.pages << page
         end
+      end
+
+      def generate_quizzes
+        root = @site.in_source_dir(@config["quiz_source"])
+        return unless File.directory?(root)
+
+        Dir.glob("**/*.{yml,yaml}", base: root).sort.each do |rel|
+          next if rel.split("/").any? { |part| part.start_with?("_") }
+
+          page = quiz_page(root, rel)
+          @site.pages << page if page
+        end
+      end
+
+      # Un archivo inválido se informa y se omite, sin detener la compilación.
+      def quiz_page(root, rel)
+        meta, questions = QuizParser.parse(read(File.join(root, rel)))
+        base = rel.delete_suffix(File.extname(rel))
+        page = new_page(base)
+        page.data.merge!(
+          "layout"         => "lms-quiz",
+          "title"          => meta["title"] || "Cuestionario",
+          "questions"      => questions,
+          "quiz"           => @config["quiz"].merge(meta.slice(*@config["quiz"].keys)),
+          "quiz_path"      => rel,
+          "nav_exclude"    => true,
+          "search_exclude" => true,
+          "permalink"      => BooleanLmsKit.join_url(@config["quiz_prefix"], "#{base}.html"),
+          "lms_kit"        => @config
+        )
+        page.content = ""
+        page
+      rescue QuizParser::Error => e
+        Jekyll.logger.error "LMS Kit:", "#{@config['quiz_source']}/#{rel}: #{e.message}"
+        nil
       end
 
       def read(path)
